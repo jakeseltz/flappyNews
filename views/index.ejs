@@ -1,0 +1,115 @@
+<html>
+<head>
+	 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+
+	 <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+	
+    <script src="/javascripts/angularApp.js"></script>
+
+</head>
+
+
+
+  <body ng-app="flapperNews">
+ 
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+        <ui-view></ui-view> <!-- this renders the template in between the script tags below -->
+      </div> <!-- .col-md-6 -->
+  <!-- .row -->
+  </div> <!-- .container -->
+  	
+  
+<script type="text/ng-template" id="/home.html">
+
+	    <div class="page-header">
+	      <h1>Flapper News</h1>
+	    </div>
+
+		
+		<form ng-submit="addPost()">
+			<input type="text" placeholder="Title" ng-model="title"><br>
+			<input type="text" placeholder="Link" ng-model="link"><br>
+		    <button type="submit">Post</button>
+	    </form>
+
+		
+
+		<div ng-repeat="post in posts | orderBy: '-upvotes'">
+			<span ng-click="incrementUpvotes(post)"> 
+				<img src="http://a.fastcompany.net/multisite_files/fastcompany/imagecache/inline-large/inline/2013/11/3021307-inline-fb-thumbsup-printpackaging.jpg" alt="HTML5 Icon" style="width:50px;height:50px">
+				</span>
+				
+				<span ng-click="downVote(post)"> 
+					<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Not_facebook_not_like_thumbs_down.png/1196px-Not_facebook_not_like_thumbs_down.png" style="width:50px;height:50px">
+
+			</span>
+			
+			<a ng-show="post.link" href="{{post.link}}">
+				{{post.title}} 
+			</a>
+			<span ng-hide="post.link">
+				{{post.title}}
+			</span>
+			
+			[ [ {{post.upvotes}} ]]
+			<span>
+			  <a href="#/posts/{{post._id}}">Comments</a>
+			 </span>
+
+		</div>
+	</script>
+
+	<script type="text/ng-template" id="/posts.html">
+		  <h1> asdfsdfdsfds</h1>
+
+		  <div class="page-header">
+		    <h3>
+		      <a ng-show="post.link" href="{{post.link}}">
+		        {{post.title}}
+		      </a>
+		      <span ng-hide="post.link">
+		        {{post.title}}
+		      </span>
+		      <a href = "#/home">back</a>
+		    </h3>
+		  </div>
+
+		  <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
+
+
+		  <span ng-click="incrementUpvotes(comment)"> 
+				<img src="http://a.fastcompany.net/multisite_files/fastcompany/imagecache/inline-large/inline/2013/11/3021307-inline-fb-thumbsup-printpackaging.jpg" alt="HTML5 Icon" style="width:50px;height:50px">
+				</span>
+				
+				<span ng-click="downVote(comment)"> 
+					<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Not_facebook_not_like_thumbs_down.png/1196px-Not_facebook_not_like_thumbs_down.png" style="width:50px;height:50px">
+
+			</span>
+
+
+		    {{comment.upvotes}} - by {{comment.author}}
+		    <span style="font-size:20px; margin-left:10px;">
+		      {{comment.body}}
+		    </span>
+		  </div>
+
+		  <form ng-submit="addComment()"
+    style="margin-top:30px;">
+    <h3>Add a new comment</h3>
+
+    <div class="form-group">
+      <input type="text"
+      class="form-control"
+      placeholder="Comment"
+      ng-model="body"></input>
+    </div>
+    <button type="submit" class="btn btn-primary">Post</button>
+  </form>
+
+
+</script>
+
+  </body>
+
+</html>
